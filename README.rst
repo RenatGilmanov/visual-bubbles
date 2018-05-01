@@ -7,7 +7,7 @@ Are you looking for a quick and easy way to visualize your data? Visual Bubbles 
 -----------
 Quick demo
 -----------
-Let's quickly check Tesla results for previous couple of years:
+Let's quickly check Tesla results for previous years:
 
 .. image:: doc/images/teslaStat.gif?raw=true
    :align: center

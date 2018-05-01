@@ -1,8 +1,8 @@
 ============================
-Divide and Compare tool
+Visual Bubbles
 ============================
 
-Are you looking for a quick and easy way to visualize your data? Divide and Compare is a right tool for the job. It provides quite a straightforward way of dealing with moderate complexity data. Long story short, it allows to filter, group, color, size and render your data in a highly visual manner.
+Are you looking for a quick and easy way to visualize your data? Visual Bubbles is a right tool for the job. It provides quite a straightforward way of dealing with moderate complexity data. Long story short, it allows to filter, group, color, size and render your data in a highly visual manner.
 
 -----------
 Quick demo
@@ -22,7 +22,7 @@ We used to think visually, so it is better to visualise data in order to make an
 The tool is designed to simplify visualization as much as possible. Basically, it only requires input data to be properly tagged. Other features are:
 
 - Simple data preparation
-- Fully visual comparison
+- Rich visual comparison
 - Presentation ready graphics
 - Animated transitions
 - `d3.js`_ based visualization
@@ -83,12 +83,12 @@ Changes
 -------
 Initially this tool was developed by an *unknown* author. The functionality looked quite promising, so additional changes were done:
 
- - added **Size by** option
- - fully reworked color palette
- - cleaned the code
- - switched to a dark theme
- - removed Coffee script in favour of a plain JavaScript
- - fixed multiple usability issues with font sizes, etc
+- added **Size by** option
+- fully reworked color palette
+- cleaned the code
+- switched to a dark theme
+- removed Coffee script in favour of a plain JavaScript
+- fixed multiple usability issues with font sizes, etc
 
 -------
 License

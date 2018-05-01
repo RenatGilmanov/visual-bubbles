@@ -49,7 +49,7 @@ Step 1: Group by AVSafetyPotential
 .. image:: doc/images/av01.png?raw=true
    :align: center
 
-So, we can see there is somewhat split opinion. Let's add to the picture position regarding school zones.
+So, we can see there is somewhat like a split opinion. Let's add to the picture school zones answers.
 
 Step 2: Color by RegulationSchoolZone
 -------------------------------------
@@ -81,7 +81,7 @@ Please notice, ``Status`` and  ``Source Type`` contain ``Lookup::`` prefix, so t
 -------
 Changes
 -------
-Initially this tool was developed by an *unknown* author. The functionality looked quite promising, so additional changes were done:
+Initially this tool was developed by an *unknown* author. The functionality looked quite promising, so additional changes were made:
 
 - added **Size by** option
 - fully reworked color palette

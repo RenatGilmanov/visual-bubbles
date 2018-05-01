@@ -1,0 +1,336 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Divide and Compare</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <link rel="stylesheet" href="static/css/reset.css">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+
+    <script src="static/js/modernizr-2.0.6.min.js"></script>
+</head>
+<body>
+    <div class='widecontainer'>
+        <header>
+    <h1># Divide and Compare</h1>
+    </header>
+        <div id='hackyTable'>
+            <div id='playground'>
+            </div>
+            <div id='left-sidebar'>
+                <!-- div id='left-sidebar-toggle-div'>
+                    <a id='left-sidebar-toggle' href='index.html#'>show/hide</a>
+                </div-->
+                <div id='left-sidebar-container'>
+                    <h2>
+                        Group by:</h2>
+                    <div>
+                        <select id='group-everything-by'>
+                            <option value=''></option>
+                        </select></div>
+                    <h2>
+                        Colour by:</h2>
+                    <div>
+                        <select id='color-everything-by'>
+                            <option value=''></option>
+                        </select></div>
+                    <h2>
+                        Size by:</h2>
+                    <div>
+                        <select id='size-everything-by'>
+                            <option value=''></option>
+                        </select></div>
+                    <div id='clear_filters'>
+                        <a href='index.html#'>(clear)</a></div>
+                    <h2>
+                        Filters:</h2>
+                    <div id="filter-list">
+                    </div>
+                </div>
+            </div>
+            <div id='right-sidebar'>
+                <!-- div>
+                    <a id='right-sidebar-toggle' href='index.html#'>show/hide</a>
+                </div -->
+                <div id='right-sidebar-color-container'>
+                </div>
+                <div id='right-sidebar-size-container'>
+                </div>
+            </div>
+        </div>
+        <footer>
+        </footer>
+
+        <div class="box">
+            <p class="bottom-title">Take a visual dive in your data</p>
+        </div>
+    </div>
+
+
+    <script>
+       window.jQuery || document.write('<script src="static/js/jquery-1.6.2.min.js"><\/script>')
+    </script>
+    <script src="static/js/jquery-1.6.2.min.js"></script>
+    <script defer="" src="static/js/plugins.js"></script>
+    <script defer="" src="static/js/script.js"></script>
+    <script src="static/js/tooltips.js"></script>
+    <script src="static/js/d3.min.js"></script>
+    <script src="static/js/d3.csv.min.js"></script>
+    <script src="static/js/d3.layout.min.js"></script>
+    <script src="static/js/d3.geom.min.js"></script>
+    <script src="static/js/chart.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var controlsVisible = true;
+            $('#left-sidebar-toggle').click(function() {
+                controlsVisible = ! controlsVisible;
+                if (controlsVisible)
+                    $('#left-sidebar-container').slideDown('fast');
+                else
+                    $('#left-sidebar-container').slideUp('fast');
+            });
+        });
+        $(function() {
+            var controlsVisible = true;
+            $('#right-sidebar-toggle').click(function() {
+                controlsVisible = ! controlsVisible;
+                if (controlsVisible)
+                    $('#right-sidebar-container').slideDown('fast');
+                else
+                    $('#right-sidebar-container').slideUp('fast');
+            });
+        });
+        var initialise_form = function (selectionOptions) {
+
+            var GetDiscreteFilters = function () {
+                var filters = [];
+                $('.filter_block').each(function (index, element) {
+                    var target = $(this).attr('data-target');
+                    var removeValues = {};
+                    $(this).find('input:not(:checked)').each(function (innerIndex, innerElement) {
+                        removeValues[$(this).val()] = true;
+                    });
+                    var toAdd = {
+                        target: target,
+                        removeValues: removeValues
+                    };
+                    filters.push(toAdd);
+                });
+                return filters;
+            };
+            var ResetFilters = function () {
+                var filters = {
+                    discrete: GetDiscreteFilters(),
+                    numeric: [] // numeric not done yet!
+                };
+                console.log(filters);
+                use_filters(filters);
+            };
+
+            // -----------------------------------------------------
+            var sizeSelect = $('#size-everything-by');
+            for (var opt in selectionOptions) {
+                var lookup = selectionOptions[opt];
+                sizeSelect.append('<option value="' + lookup.key + '">' + lookup.title + '</option>');
+            }
+            var ResetSizing = function () {
+                var sizeBy = sizeSelect.val();
+                console.log(sizeBy);
+                size_by(sizeBy);
+            };
+
+            sizeSelect.change(ResetSizing);
+
+            // -----------------------------------------------------
+            var groupSelect = $('#group-everything-by');
+            for (var opt in selectionOptions) {
+                var lookup = selectionOptions[opt];
+                groupSelect.append('<option value="' + lookup.key + '">' + lookup.title + '</option>');
+            }
+            var ResetGrouping = function () {
+                var groupBy = groupSelect.val();
+                console.log(groupBy);
+                group_by(groupBy);
+            };
+
+            groupSelect.change(ResetGrouping);
+
+            // -----------------------------------------------------
+            var colorSelect = $('#color-everything-by');
+            for (var opt in selectionOptions) {
+                var lookup = selectionOptions[opt];
+                colorSelect.append('<option value="' + lookup.key + '">' + lookup.title + '</option>');
+            }
+            var ResetColors = function () {
+                var colorBy = colorSelect.val();
+                console.log(colorBy);
+                color_by(colorBy);
+            };
+            colorSelect.change(ResetColors);
+            // -----------------------------------------------------
+
+            $('#clear_filters').click(function () {
+                $('.filter_block input').attr('checked', 'checked');
+                ResetFilters();
+            });
+
+            $('.filter_block input').change(function () { ResetFilters(); });
+            $('#left-sidebar').fadeIn(2000);
+        };
+
+        function get_distinct_values(csv, keyType, key) {
+            var allValues = {};
+            for (var i in csv) {
+                var value = csv[i][key];
+                allValues[value] = true;
+            }
+
+            var allValuesArray = [];
+            for (var i in allValues)
+                allValuesArray.push(i);
+
+            // if (keyType == 'Achievement')
+            //     allValuesArray.sort(function (a, b) { return Number(a) - Number(b); });
+            // else
+            //     allValuesArray.sort();
+            allValuesArray.sort();
+            return allValuesArray
+        }
+
+        function keyToLookup(key) {
+            var firstPartEnds = key.indexOf(':');
+            if (firstPartEnds <= 0)
+                return { key: key, type: key, title: key };
+
+            var firstPart = key.substring(0, firstPartEnds);
+            var secondPart = key.substring(firstPartEnds + 1);
+
+            return { key: key, type: firstPart, title: secondPart };
+        }
+
+        function render_filters_colors_and_groups(csv) {
+            var first = csv[0];
+            var lookups = [];
+            for (var key in first) {
+                var lookup = keyToLookup(key);
+                switch (lookup.type) {
+                    case "Lookup":
+                    // case "Grade":
+                    // case "Achievement":
+                        lookups.push(lookup);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            var filterList = $('#filter-list');
+            for (var i in lookups) {
+                var lookup = lookups[i];
+                var values = get_distinct_values(csv, lookup.type, lookup.key);
+                var item = $('<div class="filter_block" data-target="' + lookup.key + '"><h3 class="filter_title">' + lookup.title + '</h3></div>');
+                for (var j in values) {
+                    var checkbox = $('<div class="sub-filter-block"><input type="checkbox" checked="checked" value="' + values[j] + '"/> ' + values[j] + '</div>');
+                    checkbox.appendTo(item);
+                }
+                item.appendTo(filterList);
+            }
+
+            initialise_form(lookups);
+        }
+
+        function hide_color_chart() {
+            var right = $('#right-sidebar');
+            var rightContainer = $('#right-sidebar-color-container');
+            right.fadeOut(500, function () {
+                rightContainer.empty();
+            });
+        }
+
+        function hide_size_chart() {
+            var right = $('#right-sidebar');
+            var rightContainer = $('#right-sidebar-size-container');
+            right.fadeOut(500, function () {
+                rightContainer.empty();
+            });
+        }
+
+
+        function show_color_chart(what_to_color_by, color_mapper) {
+            var right = $('#right-sidebar');
+            rightContainer = $('#right-sidebar-color-container');
+            right.fadeOut(500, function () {
+                rightContainer.empty();
+
+                var lookup = keyToLookup(what_to_color_by);
+                $('<h3>' + lookup.title + '</h3>').appendTo(rightContainer);
+
+
+
+                var table = $('<table />');
+                for (var key in color_mapper) {
+
+                    var row = $('<tr/>');
+
+                    var cell = $('<td/>');
+                    var square = $('<div style="width: 15px; height: 15px; background: ' + color_mapper[key] + ';">&nbsp;</div>');
+                    square.appendTo(cell);
+                    cell.appendTo(row);
+
+                    cell = $('<td/>');
+                    cell.text(' ' + (key ? key : "# no value") + ' ');
+                    cell.appendTo(row);
+                    row.appendTo(table);
+                }
+
+                table.appendTo(rightContainer);
+                right.fadeIn(500);
+            });
+        }
+
+        function show_size_chart(what_to_size_by, size_mapper) {
+            var right = $('#right-sidebar');
+            rightContainer = $('#right-sidebar-size-container');
+            right.fadeOut(500, function () {
+                rightContainer.empty();
+
+                var lookup = keyToLookup(what_to_size_by);
+                $('<h3>' + lookup.title + '</h3>').appendTo(rightContainer);
+
+                var table = $('<table />');
+                for (var key in size_mapper) {
+                    var row = $('<tr/>');
+
+                    var cell = $('<td/>');
+                    var r = size_mapper[key];
+
+                    var side = 44;
+                    var x = side/2;
+
+                    var square = $('<svg width="' + side + '" height="'+ 16+'">' +
+                     '<circle cx="'+ x +'" cy="'+ 8 +'" r="'+ r +'" fill="gray" /></svg>');
+
+                    square.appendTo(cell);
+                    cell.appendTo(row);
+
+                    cell = $('<td/>');
+
+
+                    cell.text(' ' + (key ? key : "# no value") + ' ');
+                    cell.appendTo(row);
+                    row.appendTo(table);
+                }
+
+                table.appendTo(rightContainer);
+                right.fadeIn(500);
+            });
+        }
+  </script>
+
+</body>
+</html>

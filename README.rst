@@ -2,7 +2,7 @@
 Visual Bubbles
 ============================
 
-Are you looking for a quick and easy way to visualize your data? Visual Bubbles is a right tool for the job. It provides quite a straightforward way of dealing with moderate complexity data. Long story short, it allows to filter, group, color, size and render your data in a highly visual manner.
+Visual Bubbles helps to visualize your data. It provides quite a straightforward way of dealing with moderate complexity data. Long story short, it allows to filter, group, color, size in a highly visual manner.
 
 -----------
 Quick demo

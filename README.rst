@@ -29,6 +29,30 @@ The tool is designed to simplify visualization as much as possible. Basically, i
 
 .. _d3.js: https://d3js.org
 
+Color
+------
+Colors make the picture reach and easy to interpert. Use ``Color By`` function in order to complement grouping or to highlight interesting moments behind your data.
+
+.. image:: doc/images/av05.png?raw=true
+   :align: center
+
+It looks way better in action:
+
+.. image:: doc/images/updateColor.gif?raw=true
+   :align: center
+
+Size
+------
+As a futher step, shape size can be adjusted in order to add yet another dimension to your data. Just specify a proper attribute for ``Size By`` functionalit:
+
+.. image:: doc/images/av04.png?raw=true
+   :align: center
+
+Just see it in action:
+
+.. image:: doc/images/updateColor.gif?raw=true
+   :align: center
+
 --------
 Example
 --------
@@ -64,6 +88,13 @@ Step 3: Size by InteractPedestrian
    :align: center
 
 .. _Autonomous Vehicle Survey of Bicyclists and Pedestrians in Pittsburgh, 2017: https://catalog.data.gov/dataset/autonomous-vehicle-survey-of-bicyclists-and-pedestrians-in-pittsburgh-2017
+
+Detailed data analysis
+-----------------------
+At any moment of time all the details, related to every single record in the data set, can be viewed and analyzed:
+
+.. image:: doc/images/av06.png?raw=true
+   :align: center
 
 --------------
 A tiny manual

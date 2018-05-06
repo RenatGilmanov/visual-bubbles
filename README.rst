@@ -50,7 +50,7 @@ As a futher step, shape size can be adjusted in order to add yet another dimensi
 
 Just see it in action:
 
-.. image:: doc/images/updateColor.gif?raw=true
+.. image:: doc/images/updateSize.gif?raw=true
    :align: center
 
 --------
@@ -114,7 +114,7 @@ Changes
 -------
 Initially this tool was developed by an *unknown* author. The functionality looked quite promising, so additional changes were made:
 
-- added **Size by** option
+- added **Size By** option
 - fully reworked color palette
 - cleaned the code
 - switched to a dark theme

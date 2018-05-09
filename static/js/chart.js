@@ -1,18 +1,8 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * DS208: Avoid top-level this
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 class BubbleChart {
   constructor(data) {
     this.data = data;
-//    this.width = 1400;
-//    this.height = 1000;
-    this.width = 800;
-    this.height = 600;    
+    this.width = 1400;
+    this.height = 1000;
     this.heightShift = 100;
     this.default_radius = 7;
 
@@ -295,6 +285,10 @@ class BubbleChart {
     };
   }
 
+//  display_group_label(title) {
+//     const labels = this.vis.selectAll(".top_labels")
+//  }
+
   display_labels() {
     const label_data = d3.keys(this.group_labels);
     const labels = this.vis.selectAll(".top_labels")
@@ -303,7 +297,7 @@ class BubbleChart {
     return labels.enter().append("text")
       .attr("class", "top_labels")
       .attr("x", d => this.group_labels[d] )
-      .attr("y", 40)
+      .attr("y", 30)
       .attr("text-anchor", "start")
       .text(d => d);
   }

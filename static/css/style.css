@@ -9,6 +9,7 @@ h1 {
 }
 
 h2, h3, h4, h5, h6 {
+
     margin: 0;
     font-weight: normal;
     color: white;
@@ -81,7 +82,14 @@ footer {
 {
  position:relative;
 }
-#left-sidebar
+
+#group-title
+{
+    font-size: 16px;
+    text-align:center;
+}
+
+#right-sidebar
 {
     display:none;
     position:absolute;
@@ -89,23 +97,23 @@ footer {
     top:0;
     right:0;
 }
-#left-sidebar-container
+#right-sidebar-container
 {
     color: #afafaf;
     height: 1000px;
     width:200px;
     background-color:rgba(50,50,50,0.0);
 }
-#left-sidebar select
+#right-sidebar select
 {
     width:200px;
 }
-#left-sidebar-toggle-div
+#right-sidebar-toggle-div
 {
     text-align:right;
 }
 
-#right-sidebar
+#left-sidebar
 {
     display:none;
     position:absolute;

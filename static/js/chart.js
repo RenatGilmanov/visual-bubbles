@@ -2,7 +2,7 @@ class BubbleChart {
   constructor(data) {
     this.data = data;
     this.width = 1400;
-    this.height = 1000;
+    this.height = 800;
     this.heightShift = 100;
     this.default_radius = 7;
 
@@ -130,7 +130,7 @@ class BubbleChart {
   }
 
   get_size_map_lookup_set(allValuesArray) {
-    const max = 22;
+    const max = 32;
     const initial = 4;
     const step = 2;
     let index = initial;

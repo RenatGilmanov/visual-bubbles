@@ -9,7 +9,6 @@ h1 {
 }
 
 h2, h3, h4, h5, h6 {
-
     margin: 0;
     font-weight: normal;
     color: white;
@@ -34,7 +33,7 @@ a, a:visited, a:active {
 
 #playground {
   width: 1400px;
-  height: 1000px;
+  height: 800px;
   margin-bottom: 10px;
 }
 
@@ -48,7 +47,6 @@ footer {
 
 .top_labels {
   font-size: 14px;
-  /**writing-mode: tb-rl;*/
   fill: #aaa;
 }
 
@@ -59,11 +57,9 @@ footer {
   -moz-border-radius:5px;
 	border-radius: 5px;
   border: 2px solid #000;
-	/* background: #222222; */
   background: #222;
 	opacity: .9;
 	color: #eeeeee;
-  /* color: black; */
 	padding: 10px;
 	width: 300px;
 	font-size: 12px;
@@ -78,68 +74,103 @@ footer {
   font-weight:bold;
 }
 
-#hackyTable
-{
+#hackyTable {
  position:relative;
 }
 
-#group-title
-{
-    font-size: 16px;
+#group-title {
+    font-size: 22px;
     text-align:center;
 }
 
-#right-sidebar
-{
+#right-sidebar {
     display:none;
     position:absolute;
-    width:160px;
+    width:200px;
     top:0;
-    right:0;
+    right:10px;
 }
-#right-sidebar-container
-{
+
+#right-sidebar-container {
     color: #afafaf;
-    height: 1000px;
     width:200px;
     background-color:rgba(50,50,50,0.0);
 }
-#right-sidebar select
-{
-    width:200px;
-}
-#right-sidebar-toggle-div
-{
-    text-align:right;
+
+#right-sidebar select {
+    width:160px;
 }
 
-#left-sidebar
-{
+#right-sidebar-toggle-div {
+    text-align:left;
+}
+
+#left-sidebar {
     display:none;
     position:absolute;
     top:0;
-    left:0;
+    left:1300px;
+    width:100px;
     background-color: #1e1e1e;
 }
 
-#clear_filters
-{
+#left-sidebar h3 {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-weight: normal;
+    line-height: 120%;
+    color: white;
+    text-rendering: optimizelegibility;
+}
+
+#clear_filters {
     text-align:right;
     float:right;
 }
-#filter-list
-{
+
+#filter-list {
     height: 600px;
     overflow-x: hidden;
 }
-.widecontainer
-{
+
+.widecontainer {
     margin-top:20px;
     width:1400px;
     margin-left:auto;
     margin-right:auto;
 }
-.sub-filter-block
-{
+
+.sub-filter-block {
     padding-left:10px;
+}
+
+
+.sidenav {
+  height: 100%;
+  width: 220px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #2e2e2e;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.sidenav a {
+  text-decoration: none;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  font-size: 36px;
+  right: 10px;
+  top: 5px;
 }

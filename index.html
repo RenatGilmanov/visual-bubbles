@@ -15,32 +15,62 @@
     <script src="static/js/modernizr-2.0.6.min.js"></script>
 </head>
 <body>
+
+  <div id="mySidenav" class="sidenav">
+
+    <div id='right-sidebar'>
+        <div id='right-sidebar-container'>
+            <h2>Group by:</h2>
+            <div>
+                <select id='group-everything-by'>
+                    <option value=''></option>
+                </select></div>
+
+            <h2>Colour by:</h2>
+            <div>
+                <select id='color-everything-by'>
+                    <option value=''></option>
+                </select></div>
+            <h2>Size by:</h2>
+            <div>
+                <select id='size-everything-by'>
+                    <option value=''></option>
+                </select></div>
+            <div id='clear_filters'>
+                <a href='index.html#'>(clear)</a></div>
+            <h2>
+                Filters:</h2>
+            <div id="filter-list">
+            </div>
+
+        </div>
+    </div>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  </div>
+
     <div class='widecontainer'>
         <header>
-    <h1># Divide and Compare</h1>
+    <h1><a href="javascript:void(0)" onclick="openNav()">&#9776;</a> Divide and Compare</h1>
+    <!-- span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span-->
     </header>
         <div id='hackyTable'>
-	    <div id="group-title"></div>
+	      <div id="group-title"></div>
             <div id='playground'></div>
-            <div id='right-sidebar'>
-                <!-- div id='right-sidebar-toggle-div'>
-                    <a id='right-sidebar-toggle' href='index.html#'>show/hide</a>
-                </div-->
+
+            <!-- div id='right-sidebar'>
                 <div id='right-sidebar-container'>
-                    <h2>
-                        Group by:</h2>
+                    <h2>Group by:</h2>
                     <div>
                         <select id='group-everything-by'>
                             <option value=''></option>
                         </select></div>
-                    <h2>
-                        Colour by:</h2>
+
+                    <h2>Colour by:</h2>
                     <div>
                         <select id='color-everything-by'>
                             <option value=''></option>
                         </select></div>
-                    <h2>
-                        Size by:</h2>
+                    <h2>Size by:</h2>
                     <div>
                         <select id='size-everything-by'>
                             <option value=''></option>
@@ -51,17 +81,18 @@
                         Filters:</h2>
                     <div id="filter-list">
                     </div>
+
                 </div>
-            </div>
+            </div-->
+
+
             <div id='left-sidebar'>
-                <!-- div>
-                    <a id='left-sidebar-toggle' href='index.html#'>show/hide</a>
-                </div -->
                 <div id='left-sidebar-color-container'>
                 </div>
                 <div id='left-sidebar-size-container'>
                 </div>
             </div>
+
         </div>
         <footer>
         </footer>
@@ -84,7 +115,27 @@
     <script src="static/js/d3.layout.min.js"></script>
     <script src="static/js/d3.geom.min.js"></script>
     <script src="static/js/chart.js"></script>
+
     <script type="text/javascript">
+
+      var navOpen = true;
+
+      function openNav() {
+        if(navOpen) {
+          document.getElementById("mySidenav").style.width = "0";
+          navOpen = false;
+        }else{
+          document.getElementById("mySidenav").style.width = "220px";
+          navOpen = true;
+        }
+
+      }
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        navOpen = false;
+      }
+
         $(function() {
             var controlsVisible = true;
             $('#right-sidebar-toggle').click(function() {
@@ -155,7 +206,7 @@
             var ResetGrouping = function () {
                 var groupBy = groupSelect.val();
                 console.log(groupBy);
-		$("div#group-title").text(keyToLookup(groupBy).title);
+		            $("div#group-title").text(keyToLookup(groupBy).title);
                 group_by(groupBy);
             };
 
@@ -234,7 +285,9 @@
             for (var i in lookups) {
                 var lookup = lookups[i];
                 var values = get_distinct_values(csv, lookup.type, lookup.key);
-                var item = $('<div class="filter_block" data-target="' + lookup.key + '"><h3 class="filter_title">' + lookup.title + '</h3></div>');
+                var item = $('<div class="filter_block" data-target="'
+                    + lookup.key + '"><h3 class="filter_title">'
+                    + lookup.title + '</h3></div>');
                 for (var j in values) {
                     var checkbox = $('<div class="sub-filter-block"><input type="checkbox" checked="checked" value="' + values[j] + '"/> ' + values[j] + '</div>');
                     checkbox.appendTo(item);
@@ -261,7 +314,6 @@
             });
         }
 
-
         function show_color_chart(what_to_color_by, color_mapper) {
             var right = $('#left-sidebar');
             rightContainer = $('#left-sidebar-color-container');
@@ -271,19 +323,19 @@
                 var lookup = keyToLookup(what_to_color_by);
                 $('<h3>' + lookup.title + '</h3>').appendTo(rightContainer);
 
-
-
                 var table = $('<table />');
                 for (var key in color_mapper) {
                     var row = $('<tr/>');
+
                     var cell = $('<td/>');
+                    cell.text(' ' + (key ? key : "# no value") + ' ');
+                    cell.appendTo(row);
+
+                    cell = $('<td/>');
                     var square = $('<div style="width: 15px; height: 15px; background: ' + color_mapper[key] + ';">&nbsp;</div>');
                     square.appendTo(cell);
                     cell.appendTo(row);
 
-                    cell = $('<td/>');
-                    cell.text(' ' + (key ? key : "# no value") + ' ');
-                    cell.appendTo(row);
                     row.appendTo(table);
                 }
 
@@ -306,8 +358,11 @@
                     var row = $('<tr/>');
 
                     var cell = $('<td/>');
-                    var r = size_mapper[key];
+                    cell.text(' ' + (key ? key : "# no value") + ' ');
+                    cell.appendTo(row);
 
+                    cell = $('<td/>');
+                    var r = size_mapper[key];
                     var side = 44;
                     var x = side/2;
 
@@ -317,11 +372,6 @@
                     square.appendTo(cell);
                     cell.appendTo(row);
 
-                    cell = $('<td/>');
-
-
-                    cell.text(' ' + (key ? key : "# no value") + ' ');
-                    cell.appendTo(row);
                     row.appendTo(table);
                 }
 

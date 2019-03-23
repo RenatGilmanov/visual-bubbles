@@ -112,6 +112,16 @@ Please notice, ``Status`` and  ``Source Type`` contain ``Lookup::`` prefix, so t
 -------
 Changes
 -------
+
+v1.1 Usability improvements
+----------------------------
+Initial layout consumed quite a lot of space, so the idea to hide optional controls and move the legend to the left feels pretty natural.
+
+.. image:: doc/images/changes01.png?raw=true
+   :align: center
+
+v1.0 Initial
+--------------
 Initially this tool was developed by an *unknown* author. The functionality looked quite promising, so additional changes were made:
 
 - added **Size By** option
